@@ -1,0 +1,208 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+// Define a Student class to store and manage student information
+class Student {
+public:
+    // Constructor to initialize student information
+    Student(const char* name, string classs, int rollno, string gender, int attendance,
+            int maths, int physics, int chemistry, int hindi, int english);
+
+    // Function to display student information
+    void displayInfo() const;
+
+    // Function to modify student information
+    void modifyInfo();
+
+	void EligibleInfo();
+private:
+    char name[25];
+    string classs;
+    int rollno;
+    string gender;
+    int attendance;
+    int maths;
+    int physics;
+    int chemistry;
+    int hindi;
+    int english;
+    int sum;
+    int avg;
+};
+
+// Constructor to initialize student information
+Student::Student(const char* n, string c, int r, string gen, int att, int m, int p, int ch, int h, int e)
+    : classs(c), rollno(r), gender(gen), attendance(att), maths(m), physics(p), chemistry(ch), hindi(h), english(e) {
+    strcpy(name, n);
+    sum = maths + physics + chemistry + hindi + english;
+    avg = sum / 5;
+}
+
+// Function to display student information
+void Student::displayInfo() const {
+    cout << "\n1. Student Name: " << name;
+    cout << "\n2. Class: " << classs;
+    cout << "\n3. Roll no.: " << rollno;
+    cout << "\n4. Gender: " << gender;
+    cout << "\n5. Attendance(%): " << attendance;
+    cout << "\n6. Total marks obtained: " << sum << " / 500";
+    cout << "\n7. Average marks: " << avg;
+    cout << "\n8. Grade: ";
+
+    if (sum >= 0 && sum <= 100)
+        cout << "F (FAIL)";
+    else if (sum > 100 && sum <= 200)
+        cout << "D (Below Avg Performance)";
+    else if (sum > 200 && sum <= 300)
+        cout << "C (Decent Performance)";
+    else if (sum > 300 && sum <= 400)
+        cout << "B (Good Performance)";
+    else if (sum > 400 && sum <= 450)
+        cout << "A (Excellent Performance)";
+    else if (sum > 450 && sum <= 500)
+        cout << "A+ (Outstanding Performance)";
+    cout << endl;
+}
+
+// Function to modify student information
+void Student::modifyInfo() {
+    cout << "\nEnter new details for student " << name << ":" << endl;
+    cout << "2. Class: ";
+    cin >> classs;
+    cout << "4. Gender: ";
+    cin >> gender;
+    cout << "5. Attendance(%): ";
+    cin >> attendance;
+    cout << "6. Do you know marks of each subject? (yes or no): ";
+    string input;
+    cin >> input;
+    if (input == "yes" || input == "Yes" || input == "YES") {
+        cout << "Enter marks in each subject [out of 100]:" << endl;
+        cout << "--> in Maths: ";
+        cin >> maths;
+        cout << "--> in Physics: ";
+        cin >> physics;
+        cout << "--> in Chemistry: ";
+        cin >> chemistry;
+        cout << "--> in Hindi: ";
+        cin >> hindi;
+        cout << "--> in English: ";
+        cin >> english;
+        sum = maths + physics + chemistry + hindi + english;
+        avg = sum / 5;
+    }
+    else if (input == "no" || input == "No" || input == "NO") {
+	}
+}
+
+void Student::EligibleInfo(){
+	if(attendance>=75){
+	
+	cout<<"...........................................................\n";
+	cout<<"-> "<<name<<" is eligible for exams \n As attendance criteria is equal or above 75%: "<<attendance<<endl;
+	cout<<"...........................................................\n";}
+	else{
+	
+		cout<<"...........................................................\n";
+	cout<<"-> "<<name<<" is NOT eligible for exams \n As attendance criteria is equal or above 75%: "<<attendance<<endl;
+	cout<<"...........................................................\n";}
+}
+
+int main() {
+    cout << "`````````````````````````````````````````\n";
+    cout << "  ~ STUDENT RECORD MANAGEMENT SYSTEM ~  \n";
+    cout << "`````````````````````````````````````````\n";
+
+    char name[25];
+    int rollno, attendance, physics, maths, chemistry, hindi, english;
+    string classs,gender;
+    int n;
+    
+    int t;
+    cout<<"Enter how many students you want to check: ";
+    cin >> t;
+    
+    while(t--){
+	
+	cin.ignore();	
+    cout << "\nEnter details correctly mentioned below: ~\n";
+    cout << "\n1. Student Name: ";
+    cin.getline(name, 25);
+    cout << "2. Class: ";
+    cin >> classs;
+    cout << "3. Roll no. : ";
+    cin >> rollno;
+    cout << "4. Gender : ";
+    cin >> gender;
+    
+        while(true)
+        {
+            if(gender!="Male" && gender!="Female" && gender!="Other"){
+            	cout<<endl<<endl;
+            	cout<<"------------------!!   Alert  !!------------------------"<<endl;
+                cout<<"Wrong Input Given ~\nPlease Enter As :- (Male, Female, Other )"<<endl;
+                cout<<"--------------------------------------------------------"<<endl<<endl;
+				cout<<"--> ";
+				cin>>gender;
+				cout<<endl;
+            }
+            else{
+                break;
+            }   
+        } 
+    
+    cout << "5. Attendance(%): ";
+    cin >> attendance;
+    cout << "6. Do you know marks of each subject? (yes or no) : ";
+    string input;
+    cin >> input;
+
+    Student student(name, classs, rollno, gender, attendance, 0, 0, 0, 0, 0);
+
+    if (input == "yes" || input == "Yes" || input == "YES") {
+        cout << "Enter marks  of " << name << " in each subject [out of 100]:\n";
+        cout << "--> in Maths: ";
+        cin >> maths;
+        cout << "--> in Physics: ";
+        cin >> physics;
+        cout << "--> in Chemistry: ";
+        cin >> chemistry;
+        cout << "--> in Hindi: ";
+        cin >> hindi;
+        cout << "--> in English: ";
+        cin >> english;
+        student = Student(name, classs, rollno, gender, attendance, maths, physics, chemistry, hindi, english);
+    }
+
+    do {
+        cout << "\n1. Display Student Information \n";
+        cout << "2. Modify Student Information \n";
+        cout << "3. Exam Eligibility \n";
+        cout << "4. Exit \n";
+        cout << "\nEnter the number of the operation which you want to check: ";
+        cin >> n;
+        cout << endl;
+
+        switch (n) {
+            case 1:
+                student.displayInfo();
+                cout << endl;
+                break;
+            case 2:
+                student.modifyInfo();
+                cout << "Information updated successfully." << endl;
+                break;
+            case 3:
+            	student.EligibleInfo();
+            	break;
+			case 4:
+                break;
+            default:
+                cout << "Invalid input (-_-')\n";
+        }
+    } while (n != 4);
+
+}
+    return 0;
+}
